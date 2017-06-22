@@ -8,14 +8,11 @@
 
 package com.alliander.osgp.adapter.domain.smartmetering.application.mapping;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
-
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 import org.junit.Test;
 
@@ -23,9 +20,12 @@ import com.alliander.osgp.domain.core.entities.SmartMeter;
 import com.alliander.osgp.domain.core.valueobjects.smartmetering.SmartMeteringDevice;
 import com.alliander.osgp.dto.valueobjects.smartmetering.SmartMeteringDeviceDto;
 
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
+
 public class InstallationMapperTest {
 
-    private MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+    private final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
     @Test
     public void testSmartMeteringDeviceToSmartMeterMapping() {
@@ -45,6 +45,11 @@ public class InstallationMapperTest {
         smartMeteringDevice.setHLS4Active(true);
         smartMeteringDevice.setHLS5Active(true);
         smartMeteringDevice.setDeliveryDate(new Date());
+        smartMeteringDevice.setMbusIdentificationNumber(12345678L);
+        smartMeteringDevice.setMbusManufacturerIdentification("XYZ");
+        smartMeteringDevice.setMbusVersion((short) 66);
+        smartMeteringDevice.setMbusDeviceTypeIdentification((short) 3);
+
         final SmartMeter device = this.mapperFactory.getMapperFacade().map(smartMeteringDevice, SmartMeter.class);
 
         assertNotNull(device);
@@ -52,6 +57,11 @@ public class InstallationMapperTest {
         assertEquals(smartMeteringDevice.getDeviceIdentification(), device.getDeviceIdentification());
         assertEquals(smartMeteringDevice.getSupplier(), device.getSupplier());
         assertEquals(smartMeteringDevice.getDeviceType(), device.getDeviceType());
+        assertEquals(smartMeteringDevice.getMbusIdentificationNumber(), device.getMbusIdentificationNumber());
+        assertEquals(smartMeteringDevice.getMbusManufacturerIdentification(),
+                device.getMbusManufacturerIdentification());
+        assertEquals(smartMeteringDevice.getMbusVersion(), device.getMbusVersion());
+        assertEquals(smartMeteringDevice.getMbusDeviceTypeIdentification(), device.getMbusDeviceTypeIdentification());
     }
 
     @Test
@@ -71,8 +81,13 @@ public class InstallationMapperTest {
         smartMeteringDevice.setHLS4Active(true);
         smartMeteringDevice.setHLS5Active(true);
         smartMeteringDevice.setDeliveryDate(new Date());
-        final SmartMeteringDeviceDto smartMeteringDeviceDto = this.mapperFactory.getMapperFacade().map(
-                smartMeteringDevice, SmartMeteringDeviceDto.class);
+        smartMeteringDevice.setMbusIdentificationNumber(12345678L);
+        smartMeteringDevice.setMbusManufacturerIdentification("XYZ");
+        smartMeteringDevice.setMbusVersion((short) 112);
+        smartMeteringDevice.setMbusDeviceTypeIdentification((short) 3);
+
+        final SmartMeteringDeviceDto smartMeteringDeviceDto = this.mapperFactory.getMapperFacade()
+                .map(smartMeteringDevice, SmartMeteringDeviceDto.class);
 
         assertNotNull(smartMeteringDevice);
         assertNotNull(smartMeteringDeviceDto);
@@ -91,6 +106,13 @@ public class InstallationMapperTest {
         assertEquals(smartMeteringDevice.isHLS4Active(), smartMeteringDeviceDto.isHLS4Active());
         assertEquals(smartMeteringDevice.isHLS5Active(), smartMeteringDeviceDto.isHLS5Active());
         assertEquals(smartMeteringDevice.getDeliveryDate(), smartMeteringDeviceDto.getDeliveryDate());
+        assertEquals(smartMeteringDevice.getMbusIdentificationNumber(),
+                smartMeteringDeviceDto.getMbusIdentificationNumber());
+        assertEquals(smartMeteringDevice.getMbusManufacturerIdentification(),
+                smartMeteringDeviceDto.getMbusManufacturerIdentification());
+        assertEquals(smartMeteringDevice.getMbusVersion(), smartMeteringDeviceDto.getMbusVersion());
+        assertEquals(smartMeteringDevice.getMbusDeviceTypeIdentification(),
+                smartMeteringDeviceDto.getMbusDeviceTypeIdentification());
     }
 
 }

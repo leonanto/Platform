@@ -7,8 +7,6 @@
  */
 package com.alliander.osgp.domain.core.entities;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -22,11 +20,26 @@ public class SmartMeter extends Device {
      */
     private static final long serialVersionUID = -3526823976188640681L;
 
-    @Column
+    @Column(length = 50)
     private String supplier;
 
     @Column
     private Short channel;
+
+    @Column
+    private Long mbusIdentificationNumber;
+
+    @Column(length = 3)
+    private String mbusManufacturerIdentification;
+
+    @Column
+    private Short mbusVersion;
+
+    @Column
+    private Short mbusDeviceTypeIdentification;
+
+    @Column
+    private Short mbusPrimaryAddress;
 
     public SmartMeter() {
         // Default constructor for hibernate
@@ -37,6 +50,23 @@ public class SmartMeter extends Device {
             final String containerMunicipality, final Float gpsLatitude, final Float gpsLongitude) {
         super(deviceIdentification, alias, containerCity, containerPostalCode, containerStreet, containerNumber,
                 containerMunicipality, gpsLatitude, gpsLongitude);
+    }
+
+    public SmartMeter(final String supplier, final Short channel) {
+        this.supplier = supplier;
+        this.channel = channel;
+    }
+
+    public SmartMeter(final String supplier, final Short channel, final Long mbusIdentificationNumber,
+            final String mbusManufacturerIdentification, final Short mbusVersion,
+            final Short mbusdeviceTypeIdentification, final Short mbusPrimaryAddress) {
+        this.supplier = supplier;
+        this.channel = channel;
+        this.mbusIdentificationNumber = mbusIdentificationNumber;
+        this.mbusManufacturerIdentification = mbusManufacturerIdentification;
+        this.mbusVersion = mbusVersion;
+        this.mbusDeviceTypeIdentification = mbusdeviceTypeIdentification;
+        this.mbusPrimaryAddress = mbusPrimaryAddress;
     }
 
     public void setDeviceType(final String deviceType) {
@@ -77,20 +107,44 @@ public class SmartMeter extends Device {
         this.deviceIdentification = deviceIdentification;
     }
 
-    public SmartMeter(final String supplier, final Short channel) {
-        super();
-        this.supplier = supplier;
-        this.channel = channel;
+    public Long getMbusIdentificationNumber() {
+        return this.mbusIdentificationNumber;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode() + Objects.hash(this.supplier, this.channel);
+    public void setMbusIdentificationNumber(final Long mbusIdentificationNumber) {
+        this.mbusIdentificationNumber = mbusIdentificationNumber;
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        return super.equals(obj) && Objects.equals(this.supplier, ((SmartMeter) obj).supplier)
-                && Objects.equals(this.channel, ((SmartMeter) obj).channel);
+    public String getMbusManufacturerIdentification() {
+        return this.mbusManufacturerIdentification;
     }
+
+    public void setMbusManufacturerIdentification(final String mbusManufacturerIdentification) {
+        this.mbusManufacturerIdentification = mbusManufacturerIdentification;
+    }
+
+    public Short getMbusVersion() {
+        return this.mbusVersion;
+    }
+
+    public void setMbusVersion(final Short mbusVersion) {
+        this.mbusVersion = mbusVersion;
+    }
+
+    public Short getMbusDeviceTypeIdentification() {
+        return this.mbusDeviceTypeIdentification;
+    }
+
+    public void setMbusDeviceTypeIdentification(final Short mbusDeviceTypeIdentification) {
+        this.mbusDeviceTypeIdentification = mbusDeviceTypeIdentification;
+    }
+
+    public Short getMbusPrimaryAddress() {
+        return this.mbusPrimaryAddress;
+    }
+
+    public void setMbusPrimaryAddress(final Short mbusPrimaryAddress) {
+        this.mbusPrimaryAddress = mbusPrimaryAddress;
+    }
+
 }
