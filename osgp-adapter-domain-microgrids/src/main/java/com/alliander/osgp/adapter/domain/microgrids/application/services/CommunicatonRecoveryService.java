@@ -28,7 +28,6 @@ import com.alliander.osgp.dto.valueobjects.microgrids.GetDataResponseDto;
 import com.alliander.osgp.dto.valueobjects.microgrids.GetDataSystemIdentifierDto;
 import com.alliander.osgp.dto.valueobjects.microgrids.MeasurementDto;
 import com.alliander.osgp.dto.valueobjects.microgrids.MeasurementFilterDto;
-import com.alliander.osgp.dto.valueobjects.microgrids.PhaseDto;
 import com.alliander.osgp.dto.valueobjects.microgrids.SystemFilterDto;
 import com.alliander.osgp.shared.infra.jms.RequestMessage;
 import com.alliander.osgp.shared.infra.jms.ResponseMessageResultType;
@@ -44,10 +43,6 @@ public class CommunicatonRecoveryService extends BaseService {
     private static final int MEASUREMENT_ID = 1;
     private static final String MEASUREMENT_NODE = "Alm1";
     private static final double MEASUREMENT_VALUE_ALARM_ON = 1.0;
-
-    // new code bjorn
-    private static final int PHASE_ID = 1;
-    private static final String NAME = "phsA";
 
     @Autowired
     private CorrelationIdProviderService correlationIdProviderService;
@@ -68,12 +63,8 @@ public class CommunicatonRecoveryService extends BaseService {
 
         final GetDataResponseDto dataResponse = new GetDataResponseDto(Arrays.asList(
                 new GetDataSystemIdentifierDto(SYSTEM_ID, SYSTEM_TYPE, Arrays.asList(new MeasurementDto(MEASUREMENT_ID,
-                        MEASUREMENT_NODE, 0, new DateTime(DateTimeZone.UTC), MEASUREMENT_VALUE_ALARM_ON,
-
-                        Arrays.asList(new PhaseDto(PHASE_ID, NAME, 0, new DateTime(DateTimeZone.UTC),
-                                MEASUREMENT_VALUE_ALARM_ON))
-
-                )))), null);
+                        MEASUREMENT_NODE, 0, new DateTime(DateTimeZone.UTC), MEASUREMENT_VALUE_ALARM_ON)))),
+                null);
 
         final String correlationUid = this.createCorrelationUid(rtu);
         final String organisationIdentification = rtu.getOwner().getOrganisationIdentification();
